@@ -1,0 +1,14 @@
+<ion-view view-title="Playlists">
+  <ion-content scroll="false">
+    <ion-slide-box show-pager="false" on-slide-changed="slideHasChanged($index)">
+      <ion-slide ng-repeat="slide in slideList">
+        <div class="box daily-content">
+          <div class="image"><img ng-src={{slide.imgUrl}}></img></div>
+          <div class="text padding">
+            <span ng-bind-html="slide.contentText | rawHtml"></span>
+          </div>
+        </div>
+      </ion-slide>
+    </ion-slide-box>
+  </ion-content>
+</ion-view>

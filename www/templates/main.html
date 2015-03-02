@@ -1,0 +1,57 @@
+<ion-side-menus enable-menu-with-back-views="false">
+  <ion-side-menu-content>
+    <ion-header-bar class="bar-stable row header">
+      <div class="col col-20 brand">
+        <span>idaily</span>
+      </div>
+      <div class="col col-35 name">
+        <span>每日环球视野</span>
+      </div>
+      <div class="col col-35 weather">
+        <span class="text">北京</span>
+        <span class="ion-ios7-sunny"></span>
+        <span class="text">22/28</span>
+      </div>
+      <div class="col col-10 config-menu">
+          <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+          </button>
+      </div>
+    </ion-header-bar>
+    <ion-nav-view name="menuContent"></ion-nav-view>
+    <ion-footer-bar class="bar-stable row footer">
+      <div class="col col-60 distance">
+        <span class="icon ion-ios7-world-outline"></span>
+        <span class="text">
+          <span>距离我</span>
+          <span>12345.67KM</span>
+        </span>
+      </div>
+      <div class="col col-20 share">
+        <span class="icon ion-share"></span>
+      </div>
+      <div class="col col-20 more">
+        <span class="icon ion-more"></span>
+      </div>
+    </ion-footer-bar>
+
+  </ion-side-menu-content>
+
+  <ion-side-menu side="left">
+    <ion-header-bar class="bar-stable">
+      <h1 class="title">Left</h1>
+    </ion-header-bar>
+    <ion-content>
+      <ion-list>
+        <ion-item nav-clear menu-close href="#/app/daily">
+          iDaily
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/app/search">
+          Search
+        </ion-item>
+        <ion-item nav-clear menu-close ng-click="login()">
+          Login
+        </ion-item>
+      </ion-list>
+    </ion-content>
+  </ion-side-menu>
+</ion-side-menus>

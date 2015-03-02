@@ -1,0 +1,70 @@
+/* Header CSS */
+.header .col {
+  text-align: center;
+}
+
+.header .col span {
+  vertical-align: middle;
+}
+
+.header .brand, .header .name {
+  font-weight: bold;
+}
+
+.header .name, .header .weather {
+  border-right: 1px lightgray solid;
+}
+
+.header .weather .text {
+  font-size: 10px;
+}
+
+.header .config-menu {
+  padding: 0;
+}
+
+/* Footer CSS */
+.bar.bar-stable.footer {
+  border-top: 1px lightgray solid;
+  color: gray;
+}
+
+.bar.bar-stable.footer .col {
+  text-align: center;
+}
+
+.bar.bar-stable.footer .share, .bar.bar-stable.footer .more {
+  border-left: 1px lightgray solid;
+}
+
+.bar.bar-stable.footer .icon {
+  font-size: 1.8em;
+}
+
+.bar.bar-stable.footer .text {
+  font-size: 0.8em;
+  position: relative;
+  top: -7px;
+}
+
+/* Content CSS */
+.slider {
+  height: 100%;
+}
+
+.daily-content {
+  height: 100%;
+}
+
+.daily-content .image {
+  height: 60%;
+  overflow: hidden;
+}
+
+.daily-content .image img {
+  max-height: 100%;
+}
+
+.daily-content .text {
+  height: 40%;
+}
