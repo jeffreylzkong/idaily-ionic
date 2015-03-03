@@ -39,9 +39,9 @@ angular.module('idaily.controllers', ['idaily.providers'])
 
 .controller('DailyCtrl', function($scope, $state, configServices, newsServices, $ionicPopup, $ionicGesture, $ionicSlideBoxDelegate) {
   $scope.currentMenu.id = parseInt($state.params.menuId, 10);
+  $scope.category = configServices.sideMenu[$scope.currentMenu.id];
   // fetch news data
-  var category = configServices.sideMenu[$scope.currentMenu.id];
-  newsServices.google(category.topic, category.ned)
+  newsServices.google($scope.category.topic, $scope.category.ned)
   .then(function(slideList){
     $scope.slideList = slideList;
      $ionicSlideBoxDelegate.update();

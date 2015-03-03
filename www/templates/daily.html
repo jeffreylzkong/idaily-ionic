@@ -1,4 +1,4 @@
-<ion-view on-swipe-up="showTopic('next')" on-swipe-down="showTopic('previous')">
+<ion-view view-title="{{category.label}}">
   <ion-content scroll="false">
     <ion-slide-box show-pager="false" on-slide-changed="slideHasChanged($index)">
       <ion-slide ng-repeat="slide in slideList">

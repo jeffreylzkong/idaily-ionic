@@ -3,27 +3,27 @@ angular.module('idaily.providers', [])
 .factory('configServices', function(){
   var sideMenuItems = [{
     href: '#/app/daily/0',
-    label: 'Headlines',
+    label: '国际头条',
     topic: 'h',
     ned: 'us',
   },{
     href: '#/app/daily/1',
-    label: 'Technology',
+    label: '科技',
     topic: 't',
     ned: 'us',
   }, {
     href: '#/app/daily/2',
-    label: 'Entertainment',
+    label: '娱乐',
     topic: 'e',
     ned: 'us',
   }, {
     href: '#/app/daily/3',
-    label: 'Health',
+    label: '健康',
     topic: 'm',
     ned: 'us',
   }, {
     href: '#/app/daily/4',
-    label: '中文头条',
+    label: '中国头条',
     topic: 'h',
     ned: 'cn',
   }, {
