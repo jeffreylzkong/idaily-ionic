@@ -1,6 +1,9 @@
-angular.module('starter.controllers', [])
+angular.module('idaily.controllers', ['idaily.providers'])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, configServices) {
+  // sidemenu items
+  $scope.sideMenus = configServices.sideMenu;
+
   // Form data for the login modal
   $scope.loginData = {};
 
@@ -33,20 +36,11 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('DailyCtrl', function($scope) {
-  $scope.slideList = [
-    {
-      imgUrl: 'http://s.thestreet.com/files/tsc/v2008/photos/all-pics/traders/SpeedDesk-5-large.jpg',
-      contentText: 'In a major report issued Monday that finds potential for growth in nearly every aspect of \u003cb\u003eApple\u0026#39;s\u003c/b\u003e operations, Morgan Stanley\u0026#39;s Katy Huberty estimates that the company\u0026#39;s total addressable market — the business \u003cb\u003eApple\u003c/b\u003e might capture if it had no \u003cb\u003e...\u003c/b\u003e'
-    },
-    {
-      imgUrl: 'http://images.techhive.com/images/article/2015/02/mobile-payment-nfc-100570632-primary.idge.jpg',
-      contentText: 'By some estimates, arch-rival \u003cb\u003eApple\u003c/b\u003e surpassed Samsung as the world\u0026#39;s top smartphone maker in the fourth quarter, with record sales of the big-screen iPhone 6 and 6 Plus. Samsung begins its fight-back on April 10 when the revamped Galaxy phones go on\u0026nbsp;...',
-    },
-    {
-      imgUrl: 'http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2014/10/Apple-Watch-798x310.jpg',
-      contentText: 'In January, Tim Cook said the \u003cb\u003eApple\u003c/b\u003e Watch would be shipping in April, but it was unclear which countries would be included in the initial launch. Cook\u0026#39;s statement suggests a wider initial roll-out than we\u0026#39;ve seen before for new product categories from \u003cb\u003e...\u003c/b\u003e'
-    },
-  ];
+.controller('DailyCtrl', function($scope, $state, newsServices, $ionicPopup, $ionicSlideBoxDelegate) {
+  newsServices.google($state.params.topic, $state.params.ned)
+  .then(function(slideList){
+    $scope.slideList = slideList;
+     $ionicSlideBoxDelegate.update();
+  });
 });
 

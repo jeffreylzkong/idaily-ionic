@@ -54,6 +54,7 @@
 
 .daily-content {
   height: 100%;
+  border: 1px lightgray solid;
 }
 
 .daily-content .image {
@@ -62,7 +63,14 @@
 }
 
 .daily-content .image img {
+  position: relative;
+  left: 50%;
   max-height: 100%;
+  height: 100%;
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%); /* IE 9 */
+  -webkit-transform: translateX(-50%); /* Chrome, Safari, Opera */
+  transform: translateX(-50%);
 }
 
 .daily-content .text {
