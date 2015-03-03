@@ -1,4 +1,4 @@
-<ion-view view-title="Playlists">
+<ion-view on-swipe-up="showTopic('next')" on-swipe-down="showTopic('previous')">
   <ion-content scroll="false">
     <ion-slide-box show-pager="false" on-slide-changed="slideHasChanged($index)">
       <ion-slide ng-repeat="slide in slideList">

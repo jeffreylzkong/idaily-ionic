@@ -42,7 +42,7 @@
     </ion-header-bar>
     <ion-content>
       <ion-list>
-        <ion-item ng-repeat="menu in sideMenus" nav-clear menu-close href="{{menu.href}}">
+      <ion-item ng-repeat="menu in sideMenus" nav-clear menu-close href="{{menu.href}}" ng-class="{'active': $index === currentMenu.id}">
           {{menu.label}}
         </ion-item>
         <ion-item nav-clear menu-close href="#/app/search">

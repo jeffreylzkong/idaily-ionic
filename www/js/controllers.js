@@ -3,6 +3,7 @@ angular.module('idaily.controllers', ['idaily.providers'])
 .controller('AppCtrl', function($scope, $ionicModal, $timeout, configServices) {
   // sidemenu items
   $scope.sideMenus = configServices.sideMenu;
+  $scope.currentMenu = {id: 0};
 
   // Form data for the login modal
   $scope.loginData = {};
@@ -36,11 +37,29 @@ angular.module('idaily.controllers', ['idaily.providers'])
   };
 })
 
-.controller('DailyCtrl', function($scope, $state, newsServices, $ionicPopup, $ionicSlideBoxDelegate) {
-  newsServices.google($state.params.topic, $state.params.ned)
+.controller('DailyCtrl', function($scope, $state, configServices, newsServices, $ionicPopup, $ionicGesture, $ionicSlideBoxDelegate) {
+  $scope.currentMenu.id = parseInt($state.params.menuId, 10);
+  // fetch news data
+  var category = configServices.sideMenu[$scope.currentMenu.id];
+  newsServices.google(category.topic, category.ned)
   .then(function(slideList){
     $scope.slideList = slideList;
      $ionicSlideBoxDelegate.update();
   });
+
+  // Event handlers
+  $scope.showTopic = function(direction){
+    var mextMenuId = 0;
+    if (direction === 'next') {
+      nextMenuId = ($scope.currentMenu.id + 1) < configServices.sideMenu.length ? $scope.currentMenu.id + 1 : 0;
+    } else if (direction === 'previous') {
+      nextMenuId = ($scope.currentMenu.id - 1) > 0 ? $scope.currentMenu.id - 1 : configServices.sideMenu.length - 1;
+    }
+    $state.go('app.daily', {menuId: nextMenuId});
+  };
+
+  $scope.slideHasChanged = function(index) {
+    //console.log(index);
+  };
 });
 

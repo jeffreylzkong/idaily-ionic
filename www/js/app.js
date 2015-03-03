@@ -46,7 +46,7 @@ angular.module('idaily', ['ionic', 'idaily.controllers', 'idaily.providers'])
   })
 
   .state('app.daily', {
-    url: "/daily/:topic/:ned",
+    url: "/daily/:menuId",
     views: {
       'menuContent': {
         templateUrl: "templates/daily.html",
@@ -56,5 +56,5 @@ angular.module('idaily', ['ionic', 'idaily.controllers', 'idaily.providers'])
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/daily/h/us');
+  $urlRouterProvider.otherwise('/app/daily/0');
 });

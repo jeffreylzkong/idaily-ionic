@@ -2,26 +2,40 @@ angular.module('idaily.providers', [])
 
 .factory('configServices', function(){
   var sideMenuItems = [{
-    href: '#/app/daily/h/us',
+    href: '#/app/daily/0',
     label: 'Headlines',
+    topic: 'h',
+    ned: 'us',
   },{
-    href: '#/app/daily/t/us',
+    href: '#/app/daily/1',
     label: 'Technology',
+    topic: 't',
+    ned: 'us',
   }, {
-    href: '#/app/daily/e/us',
+    href: '#/app/daily/2',
     label: 'Entertainment',
+    topic: 'e',
+    ned: 'us',
   }, {
-    href: '#/app/daily/m/us',
+    href: '#/app/daily/3',
     label: 'Health',
+    topic: 'm',
+    ned: 'us',
   }, {
-    href: '#/app/daily/h/cn',
+    href: '#/app/daily/4',
     label: '中文头条',
+    topic: 'h',
+    ned: 'cn',
   }, {
-    href: '#/app/daily/h/hk',
+    href: '#/app/daily/5',
     label: '香港头条',
+    topic: 'h',
+    ned: 'hk',
   }, {
-    href: '#/app/daily/e/hk',
+    href: '#/app/daily/6',
     label: '香港娱乐',
+    topic: 'e',
+    ned: 'hk',
   }];
 
   return {
@@ -53,7 +67,8 @@ angular.module('idaily.providers', [])
     var url = 'https://ajax.googleapis.com/ajax/services/search/news?v=1.0&rsz=8'+topic+ned+'&callback=JSON_CALLBACK';
     $http({
       method: 'JSONP',
-      url: url
+      url: url,
+      cache: true
     })
       .success(function(data, status, headers, config){
         var slideList = [];
