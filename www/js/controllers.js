@@ -1,9 +1,34 @@
-angular.module('idaily.controllers', ['idaily.providers'])
+angular.module('idaily.controllers', ['idaily.providers', 'ngSanitize'])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, configServices) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $sce, configServices) {
   // sidemenu items
   $scope.sideMenus = configServices.sideMenu;
   $scope.currentMenu = {id: 0};
+
+  // Web view modal
+  $ionicModal.fromTemplateUrl('templates/webview.html', {
+    scope: $scope,
+  }).then(function(modal){
+    $scope.webModal = modal;
+  });
+
+  // Trigger web view show
+  $scope.currentNews = {};
+  $scope.showWebModal = function(slide){
+    $scope.currentNews.title = slide.title;
+    $scope.currentNews.url = decodeURIComponent(slide.url);
+    $scope.webModal.show();
+  };
+
+  $scope.hideWebModal = function(){
+    $scope.currentNews.url = 'about:blank';
+    $scope.webModal.hide();
+  };
+
+  // iframe handling
+  $scope.trustSrc = function(src) {
+    return $sce.trustAsResourceUrl(src);
+  }
 
   // Form data for the login modal
   $scope.loginData = {};

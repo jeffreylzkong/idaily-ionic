@@ -75,7 +75,9 @@ angular.module('idaily.providers', [])
         angular.forEach(data.responseData.results, function(result){
           slideList.push({
             imgUrl: result.image ? result.image.url : '',
-            contentText: result.content
+            contentText: result.content,
+            title: result.title,
+            url: result.url
           });
         });
         return queue.resolve(slideList);

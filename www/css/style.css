@@ -76,3 +76,8 @@
 .daily-content .text {
   height: 40%;
 }
+
+.iframe-wrapper iframe {
+  width: 100%;
+  height: 100%;
+}
