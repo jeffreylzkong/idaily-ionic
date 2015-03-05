@@ -2,10 +2,10 @@
   <ion-header-bar>
   <h1 class="title">{{currentNews.title}}</h1>
     <div class="buttons">
-      <button class="button button-clear" ng-click="hideWebModal()">Close</button>
+      <button class="button button-clear" ng-click="closeWebModal()">Close</button>
     </div>
   </ion-header-bar>
-  <ion-content scroll="true" overflow-scroll="true" class="iframe-wrapper">
-    <iframe data-tap-disabled="true" ng-src="{{trustSrc(currentNews.url)}}"></iframe>
+  <ion-content scroll="true" overflow-scroll="true">
+  <div class="iframe-wrapper" ng-bind-html="currentNews.contentHtml"></div>  
   </ion-content>
 </ion-modal-view>

@@ -43,6 +43,30 @@ angular.module('idaily.providers', [])
   };
 })
 
+
+.factory('newsContentService', function($q, $http){
+  var fetchContent = function(url, contentText) {
+    var queue = $q.defer();
+    var apiUrl = 'http://idailyapi.appspot.com/newsContent?url='+url+'&text='+contentText.slice(25, 50);
+    $http({
+      method: 'GET',
+      url: apiUrl,
+      cache: true
+    })
+    .success(function(data, status, headers, config){
+      return queue.resolve(data);
+    })
+    .error(function(data, status, headers, config){
+       return queue.reject(data);
+    });
+    return queue.promise;
+  };
+  return {
+    fetch: fetchContent,
+  };
+})
+
+
 .factory('newsServices', function($q, $http){
   var googleNews = function(topic, ned){
     /* Topic=h:
@@ -77,13 +101,13 @@ angular.module('idaily.providers', [])
             imgUrl: result.image ? result.image.url : '',
             contentText: result.content,
             title: result.title,
-            url: result.url
+            url: result.unescapedUrl
           });
         });
         return queue.resolve(slideList);
       })
       .error(function(data, status, headers, config){
-         return deferred.error(data, status);
+         return deferred.reject(data);
       });
     return queue.promise;
   };

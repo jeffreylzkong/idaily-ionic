@@ -1,6 +1,6 @@
 angular.module('idaily.controllers', ['idaily.providers', 'ngSanitize'])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $sce, configServices) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $sce, configServices, newsContentService) {
   // sidemenu items
   $scope.sideMenus = configServices.sideMenu;
   $scope.currentMenu = {id: 0};
@@ -14,21 +14,25 @@ angular.module('idaily.controllers', ['idaily.providers', 'ngSanitize'])
 
   // Trigger web view show
   $scope.currentNews = {};
-  $scope.showWebModal = function(slide){
+  $scope.openWebModal = function(slide){
     $scope.currentNews.title = slide.title;
-    $scope.currentNews.url = decodeURIComponent(slide.url);
+    $scope.currentNews.contentHtml = slide.contentText;
+    newsContentService.fetch(slide.url, slide.contentText)
+    .then(function(data){
+      $scope.currentNews.contentHtml = data;
+    });
     $scope.webModal.show();
   };
 
-  $scope.hideWebModal = function(){
-    $scope.currentNews.url = 'about:blank';
+  $scope.closeWebModal = function(){
+    $scope.currentNews.contentHtml = '';
     $scope.webModal.hide();
   };
 
   // iframe handling
   $scope.trustSrc = function(src) {
     return $sce.trustAsResourceUrl(src);
-  }
+  };
 
   // Form data for the login modal
   $scope.loginData = {};
@@ -69,7 +73,7 @@ angular.module('idaily.controllers', ['idaily.providers', 'ngSanitize'])
   newsServices.google($scope.category.topic, $scope.category.ned)
   .then(function(slideList){
     $scope.slideList = slideList;
-     $ionicSlideBoxDelegate.update();
+    $ionicSlideBoxDelegate.update();
   });
 
   // Event handlers

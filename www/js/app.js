@@ -26,6 +26,17 @@ angular.module('idaily', ['ionic', 'idaily.controllers', 'idaily.providers'])
             };
 }])
 
+.directive('newsIframe', function($compile) {
+  return {
+    replace: true,
+    link: function(scope, element) {
+      var iframe = angular.element('<iframe data-tap-disabled="true" ng-src="{{trustSrc(currentNews.url)}}"></iframe>');
+      $compile(iframe)(scope);
+      element.append(iframe);
+    }
+  };
+})
+
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
