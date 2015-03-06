@@ -19,7 +19,7 @@ angular.module('idaily.controllers', ['idaily.providers', 'ngSanitize'])
     $scope.currentNews.contentHtml = slide.contentText;
     newsContentService.fetch(slide.url, slide.contentText)
     .then(function(data){
-      $scope.currentNews.contentHtml = $sce.trustAsHtml(truncate(data, '<a><br><p>'));
+      $scope.currentNews.contentHtml = $sce.trustAsHtml(truncate(data, '<a><br><p><div><img><h2><h3>'));
     });
     $scope.webModal.show();
   };

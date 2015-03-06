@@ -58,6 +58,7 @@ angular.module('idaily.providers', [])
       var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi,
         commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
       return input.replace(commentsAndPhpTags, '')
+        .replace('&#39;', "'")
         .replace(tags, function($0, $1) {
           return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
         });
@@ -69,27 +70,41 @@ angular.module('idaily.providers', [])
   function isASCII(str) {
     return /^[\x00-\x7F]*$/.test(str);
   }
+
+  function selectCleanString(cleanArray, englishRating) {
+    var cleanString = '';
+    if (cleanArray.length < 3) {
+      // return the longest one if it is a short list
+      cleanString = cleanArray.sort(function (a, b) { return b.length - a.length; })[0];
+    } else {
+      // find one from the middle if this is a long list
+      var midPoint = Math.round(cleanArray.length/4);
+      cleanString = cleanArray.slice(midPoint, midPoint * 3).sort(function (a, b) { return b.length - a.length; })[0];
+    }
+    if (englishRating > 10) {
+      return cleanString;
+    } else {
+      // Chinese, select partial words to search
+      return cleanString.slice(-20, -5);
+    }
+  }
+
   return function(contentText){
-    var cleanArray = contentText.replace('&nbsp', '');
+    var cleanArray = contentText.replace(/&nbsp/g, "'").replace(/&#39;/g, "'");
     // clean up ,()...
     var englishRating = 20;
     cleanArray.split('').slice(1,20).forEach(function(s){
       if (!isASCII(s)) englishRating -= 1;
     });
     if (englishRating > 10) {
-      cleanArray = cleanArray.split(/[,.。()<>...]+/).filter(function(s){return s.length > 20;});
+      // English
+      cleanArray = cleanArray.split(/[A-Za-z0-9]+(?:-[A-Za-z0-9]+)/).join('...').split(/[,.。:–\-()<>...]+/).filter(function(s){return s.length > 20;});
     } else {
-      cleanArray = cleanArray.split(/[\s,.。()<>...]+/).filter(function(s){return s.length > 20;});
+      // Chinese
+      cleanArray = cleanArray.split(/[\s,.。△()<>...]+/).filter(function(s){return s.length > 10;});
     }
 
-    if (cleanArray.length < 3) {
-      // return the longest one if it is a short list
-      return cleanArray.sort(function (a, b) { return b.length - a.length; })[0];
-    } else {
-      // find one from the middle if this is a long list
-      var midPoint = Math.round(cleanArray.length/4);
-      return cleanArray.slice(midPoint, midPoint * 3).sort(function (a, b) { return b.length - a.length; })[0];
-    }
+    return selectCleanString(cleanArray, englishRating);
   };
 })
 
