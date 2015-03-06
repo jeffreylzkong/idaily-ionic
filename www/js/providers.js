@@ -36,6 +36,12 @@ angular.module('idaily.providers', [])
     label: '香港娱乐',
     topic: 'e',
     ned: 'hk',
+  },{
+    href: '#/app/daily/7',
+    label: '娛樂八卦',
+    topic: '',
+    q: '娛樂八卦',
+    ned: 'hk'
   }];
 
   return {
@@ -71,9 +77,9 @@ angular.module('idaily.providers', [])
       if (!isASCII(s)) englishRating -= 1;
     });
     if (englishRating > 10) {
-      cleanArray = cleanArray.split(/[,()...]+/).filter(function(s){return s.length > 20;});
+      cleanArray = cleanArray.split(/[,.。()<>...]+/).filter(function(s){return s.length > 20;});
     } else {
-      cleanArray = cleanArray.split(/[\s,()...]+/).filter(function(s){return s.length > 20;});
+      cleanArray = cleanArray.split(/[\s,.。()<>...]+/).filter(function(s){return s.length > 20;});
     }
 
     if (cleanArray.length < 3) {
@@ -112,7 +118,7 @@ angular.module('idaily.providers', [])
 
 
 .factory('newsServices', function($q, $http){
-  var googleNews = function(topic, ned){
+  var googleNews = function(q, topic, ned){
     /* Topic=h:
      * h - specifies the top headlines topic
      * w - specifies the world topic
@@ -130,9 +136,15 @@ angular.module('idaily.providers', [])
      To find the ned for other editions, review the links on the Languages and Regions page of Google News help. Each of these links ends with a ned id specific to a country or region.
     */
     var queue = $q.defer();
-    topic = topic ? '&topic='+topic : '&topic=h';
+    if (q) {
+      q = '&q='+q;
+      topic = '';
+    } else {
+      q = '';
+      topic = topic ? '&topic='+topic : '&topic=h';
+    }
     ned = ned ? '&ned='+ned : '';
-    var url = 'https://ajax.googleapis.com/ajax/services/search/news?v=1.0&rsz=8'+topic+ned+'&callback=JSON_CALLBACK';
+    var url = 'https://ajax.googleapis.com/ajax/services/search/news?v=1.0&rsz=8'+q+topic+ned+'&callback=JSON_CALLBACK';
     $http({
       method: 'JSONP',
       url: url,
