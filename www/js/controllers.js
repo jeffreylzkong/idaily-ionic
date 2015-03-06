@@ -1,6 +1,6 @@
 angular.module('idaily.controllers', ['idaily.providers', 'ngSanitize'])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $sce, configServices, newsContentService) {
+.controller('AppCtrl', function($scope, $ionicModal, $timeout, $sce, truncate, configServices, newsContentService) {
   // sidemenu items
   $scope.sideMenus = configServices.sideMenu;
   $scope.currentMenu = {id: 0};
@@ -19,7 +19,7 @@ angular.module('idaily.controllers', ['idaily.providers', 'ngSanitize'])
     $scope.currentNews.contentHtml = slide.contentText;
     newsContentService.fetch(slide.url, slide.contentText)
     .then(function(data){
-      $scope.currentNews.contentHtml = data;
+      $scope.currentNews.contentHtml = $sce.trustAsHtml(truncate(data, '<a><br>'));
     });
     $scope.webModal.show();
   };

@@ -43,11 +43,38 @@ angular.module('idaily.providers', [])
   };
 })
 
+.factory('truncate', function () {
+    return function strip_tags(input, allowed) {
+      allowed = (((allowed || '') + '')
+        .toLowerCase()
+        .match(/<[a-z][a-z0-9]*>/g) || [])
+        .join(''); // making sure the allowed arg is a string containing only tags in lowercase (<a><b><c>)
+      var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi,
+        commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
+      return input.replace(commentsAndPhpTags, '')
+        .replace(tags, function($0, $1) {
+          return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
+        });
+    };
+})
+
 
 .factory('cleanService', function(){
+  function isASCII(str) {
+    return /^[\x00-\x7F]*$/.test(str);
+  }
   return function(contentText){
+    var cleanArray = contentText.replace('&nbsp', '');
     // clean up ,()...
-    var cleanArray = contentText.split(/[\s,()...]+/).filter(function(s){return s.length > 20;});
+    var englishRating = 20;
+    cleanArray.split('').slice(1,20).forEach(function(s){
+      if (!isASCII(s)) englishRating -= 1;
+    });
+    if (englishRating > 10) {
+      cleanArray = cleanArray.split(/[,()...]+/).filter(function(s){return s.length > 20;});
+    } else {
+      cleanArray = cleanArray.split(/[\s,()...]+/).filter(function(s){return s.length > 20;});
+    }
 
     if (cleanArray.length < 3) {
       // return the longest one if it is a short list
@@ -63,6 +90,7 @@ angular.module('idaily.providers', [])
 .factory('newsContentService', function($q, $http, cleanService){
   var fetchContent = function(url, contentText) {
     var queue = $q.defer();
+    //var apiUrl = 'http://localhost:8081/newsContent?url='+url+'&text='+cleanService(contentText);
     var apiUrl = 'http://idailyapi.appspot.com/newsContent?url='+url+'&text='+cleanService(contentText);
     $http({
       method: 'GET',
