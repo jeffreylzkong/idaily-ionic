@@ -63,7 +63,7 @@ angular.module('idaily.providers', [])
 .factory('newsContentService', function($q, $http, cleanService){
   var fetchContent = function(url, contentText) {
     var queue = $q.defer();
-    var apiUrl = 'http://localhost:8081/newsContent?url='+url+'&text='+cleanService(contentText);
+    var apiUrl = 'http://idailyapi.appspot.com/newsContent?url='+url+'&text='+cleanService(contentText);
     $http({
       method: 'GET',
       url: apiUrl,
