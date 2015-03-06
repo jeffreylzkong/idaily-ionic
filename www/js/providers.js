@@ -44,10 +44,26 @@ angular.module('idaily.providers', [])
 })
 
 
-.factory('newsContentService', function($q, $http){
+.factory('cleanService', function(){
+  return function(contentText){
+    // clean up ,()...
+    var cleanArray = contentText.split(/[\s,()...]+/).filter(function(s){return s.length > 20;});
+
+    if (cleanArray.length < 3) {
+      // return the longest one if it is a short list
+      return cleanArray.sort(function (a, b) { return b.length - a.length; })[0];
+    } else {
+      // find one from the middle if this is a long list
+      var midPoint = Math.round(cleanArray.length/4);
+      return cleanArray.slice(midPoint, midPoint * 3).sort(function (a, b) { return b.length - a.length; })[0];
+    }
+  };
+})
+
+.factory('newsContentService', function($q, $http, cleanService){
   var fetchContent = function(url, contentText) {
     var queue = $q.defer();
-    var apiUrl = 'http://idailyapi.appspot.com/newsContent?url='+url+'&text='+contentText.slice(25, 50);
+    var apiUrl = 'http://localhost:8081/newsContent?url='+url+'&text='+cleanService(contentText);
     $http({
       method: 'GET',
       url: apiUrl,
