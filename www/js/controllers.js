@@ -34,6 +34,31 @@ angular.module('idaily.controllers', ['idaily.providers', 'ngSanitize'])
     return $sce.trustAsResourceUrl(src);
   };
 
+
+  // Image view modal
+  $ionicModal.fromTemplateUrl('image-modal.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.imgModal = modal;
+  });
+
+  $scope.openImgModal = function(slide) {
+    $scope.imgUrl = slide.imgUrl;
+    $scope.imgModal.show();
+  };
+
+  $scope.closeImgModal = function() {
+    $scope.imgUrl = '';
+    $scope.imgModal.hide();
+  };
+
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.imgModal.remove();
+    $scope.webModal.remove();
+  });
+
   // Form data for the login modal
   $scope.loginData = {};
 
